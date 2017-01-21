@@ -3,49 +3,6 @@ import firebase from 'firebase';
 
 import generateUUID from './../util/uuid';
 
-/*
-let dataStructor = {
-  scenario: 'Fog Island',
-  date: Date.now(),
-
-  players: [{
-    name: 'Cameron',
-    order: '4',
-    color: 'red',
-    finalVictoryPoints: undefined,
-    rolls: [5, 12, 8, 7, 3], // can be 2 - 12
-    achievments: [{
-      name: 'Largest Army',
-    }]
-  },{
-    name: 'Emily',
-    order: '1',
-    color: 'white',
-    finalVictoryPoints: undefined,
-    rolls: [5, 12, 8, 7, 3], // can be 2 - 12
-    achievments: []
-  },{
-    name: 'Jeremy',
-    order: '2',
-    color: 'orange',
-    finalVictoryPoints: undefined,
-    rolls: [5, 12, 8, 7, 3], // can be 2 - 12
-    achievments: [{
-      name: 'Longest Road',
-      length: 23,
-    }]
-  },{
-    name: 'Jen',
-    order: '3',
-    color: 'blue',
-    finalVictoryPoints: undefined,
-    rolls: [5, 12, 8, 7, 3], // can be 2 - 12
-    achievments: [{
-      name: 'used the Monopoly Card and received 20 wood resources!',
-    }]
-  }]
-}
-*/
 class NewGame extends Component {
   constructor(props) {
     super(props);
@@ -112,6 +69,7 @@ class NewGame extends Component {
       finished: false,
       largestRoad: 'no one',
       largestArmy: 'no one',
+      winner: 'no one',
     };
 
 
@@ -120,14 +78,14 @@ class NewGame extends Component {
 
     firebase.database().ref(`users/${ this.props.user.uid }/games/${ gameRef }`).set({
       date: this.state.date,
+      id: gameRef,
+      scenario: this.state.scenario,
     });
 
     this.props.router.push(`/play-game/${ gameRef }`);
   }
 
   render() {
-    
-    console.log(this.props);
 
     let players = this.state.players.map((player, index) => {
       return (<li key={'player-' + index}>{player.name} <div className="playerColorBox" style={{ background: player.color }}></div></li>);

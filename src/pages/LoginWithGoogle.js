@@ -8,7 +8,6 @@ class Login extends Component {
     var provider = new firebase.auth.GoogleAuthProvider();
     
     firebase.auth().signInWithRedirect(provider);
-
     firebase.auth().getRedirectResult().then(function(result) {
       if (result.credential) {
         // This gives you a Google Access Token. You can use it to access the Google API.
@@ -23,7 +22,6 @@ class Login extends Component {
       // Handle Errors here.
       // var errorCode = error.code;
       // var errorMessage = error.message;
-
       console.error(error)
       // The email of the user's account used.
       // var email = error.email;
@@ -35,8 +33,8 @@ class Login extends Component {
 
   render() {
     return (
-      <div className="card" onClick={this.handleGoogleLogin}>
-        Click here to login with your Google Account.
+      <div className="card">
+        <button onClick={this.handleGoogleLogin}>Click here to login with your Google Account.</button>
       </div>
     );
   }

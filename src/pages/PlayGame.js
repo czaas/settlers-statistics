@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 
+import DiceRolled from './shared/DiceRolled';
+
 class PlayGame extends Component {
   constructor() {
     super();
 
     this.gameReference = undefined;
-
     this.state = {
       haveReceivedData: false,
       game: {}
@@ -24,13 +25,26 @@ class PlayGame extends Component {
   }
 
   rollDice = (number, e) => {
-    e.preventDefault();
+    e.preventDefault(); 
+    if (this.state.haveReceivedData) {
+      let orderOfRoll = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length + 1 : 1;
 
-    firebase.database().ref(`games/${ this.props.params.id }/rolls`).push(number);
+      firebase.database().ref(`games/${ this.props.params.id }/rolls`).push({
+        number: number,
+        order: orderOfRoll,
+      });
+    }
   }
 
-  removeLastRoll = () => {
-    // firebase.database().ref();
+  removeLastRoll = (e) => {
+    e.preventDefault();
+
+    if (this.state.haveReceivedData && this.state.game.rolls) {
+      // getting the key value of last item in rolls object
+      let lastRoll = Object.keys(this.state.game.rolls)[Object.keys(this.state.game.rolls).length - 1];
+
+      firebase.database().ref(`games/${ this.props.params.id }/rolls/${ lastRoll }`).remove();
+    }
   }
 
   setLongestRoad = (e) => {
@@ -46,13 +60,90 @@ class PlayGame extends Component {
     });
   }
 
+  selectWinner = () => {
+    let confirmation = confirm('Once you select your winner this game will be locked in history. There is no undo.');
+
+    if (confirmation) {
+      firebase.database().ref(`games/${ this.props.params.id }`).update({
+        finished: true,
+        winner: this.refs.winner.value,
+      });
+      firebase.database().ref(`users/${ this.props.user.uid }/games/${ this.props.params.id }`).update({
+        finished: true,
+      });
+    }
+
+    alert('Game is over, redirecting...');
+
+    this.props.router.push({
+      pathname: `/view-game/${ this.state.game.id }`
+    });
+  }
+
+  handleImageUpload = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    let hasImages = (this.state.game.images) ? Math.abs(this.state.game.images) + 1 : 1;
+
+    if (hasImages <= 3) {
+      let images = document.querySelector('input[type=file]').files[0];
+      let newImageRef = firebase.storage().ref(`games/${ this.props.params.id }/${ hasImages }.jpg`);
+
+      var reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        var baseLength = 'data:image/jpeg;base64,'.length;
+
+        let image = reader.result.slice(baseLength, reader.result.length);
+
+        newImageRef.putString(reader.result, 'data_url').then((snapshot) => {
+          console.log('uploaded?', snapshot);
+        });
+
+        this.gameReference.update({
+          images: hasImages,
+        });
+      }, false);
+
+      if (images) {
+        reader.readAsDataURL(images);
+      }
+    } else {
+      alert('you can not upload more than 3 images per game.');
+    }
+  }
+
+  getImages = () => {
+    let images = [];
+
+    if (this.state.haveReceivedData && this.state.game.images) {
+      console.log('has images', this.state.game.images)
+      for ( let i = 0; i < this.state.game.images; i++) {
+        let imageRef = firebase.storage().ref(`games/${ this.props.params.id }/${ i + 1 }.jpg`);
+
+        imageRef.getDownloadURL().then((url) => {
+          console.log(url.split('?')[0]);
+          let newImage = <img src={url} />;
+          images.push(newImage);
+
+          this.refs.test.src = url;
+        });
+      }
+
+      return images;
+    }
+  }
+
   render() {
-    console.log(this.state);
     let playersSelectableOptions = [];
     let playersTurn;
     let nextTurnNumber;
     let lrSelected = 'no one';
     let laSelected = 'no one';
+    let winner = 'no one';
+
+    console.log(this.state);
 
     if (this.state.haveReceivedData) {
       const players = this.state.game.players;
@@ -62,9 +153,6 @@ class PlayGame extends Component {
       // getting players turn
       let remainderOfPlayers = nextTurnNumber % players.length;
       let playerIndex = remainderOfPlayers / 1; 
-
-      console.log(nextTurnNumber);
-      console.log(players.length);
 
       playersTurn = players[playerIndex].name;
 
@@ -81,6 +169,10 @@ class PlayGame extends Component {
           laSelected = player.name;
         }
 
+        if (this.state.game.winner === player.name) {
+          winner = player.name;
+        }
+
         playersSelectableOptions.push(<option key={`player-option-${i}`} value={player.name}>{player.name}</option>);
       }
     }
@@ -88,7 +180,7 @@ class PlayGame extends Component {
     return (
       <div>
         <p>It is {playersTurn}'s turn. Select the dice you've rolled.</p>
-        <p>Next Turn number: {(nextTurnNumber + 1)}</p>
+        <p>Current Turn number: {(nextTurnNumber + 1)}</p>
         <form>
           <h2>Dice roll</h2>
           <button name="number-3" value="3" onClick={this.rollDice.bind(this, '2')}>2</button>
@@ -105,7 +197,6 @@ class PlayGame extends Component {
           <button name="remove" value="remove" onClick={this.removeLastRoll}>undo last roll</button>
         </form>
         <DiceRolled rolls={this.state.game.rolls} />
-
         <form>
           Longest Road held by
           <select ref="longestRoad" value={lrSelected} onChange={this.setLongestRoad}>
@@ -120,99 +211,28 @@ class PlayGame extends Component {
             <option value={'no one'}>no one</option>
             {playersSelectableOptions}
           </select>
-        </form>        
+        </form>
+
+        <form>
+          <input type="file" accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} />
+        </form>
+
+        <div>
+          {this.getImages()}
+          <img ref="test" />
+        </div>
+
+        <form>
+          Winner
+          <select ref="winner" value={winner} onChange={this.selectWinner}>
+            <option value={'no one'}>no one</option>
+            {playersSelectableOptions}
+          </select>
+        </form>
       </div>
     );
   }
 }
 
-class DiceRolled extends React.Component {
-  render() {
-    let twos = 0;
-    let threes = 0;
-    let fours = 0;
-    let fives = 0;
-    let sixes = 0;
-    let sevens = 0;
-    let eights = 0;
-    let nines = 0;
-    let tens = 0;
-    let elevens = 0;
-    let twelves = 0;
-
-    for (var key in this.props.rolls) {
-      console.log()
-      switch(this.props.rolls[key]) {
-        case '2':
-          twos++;
-          break;
-        case '3':
-          threes++;
-          break;
-        case '4':
-          fours++;
-          break;
-        case '5':
-          fives++;
-          break;
-        case '6':
-          sixes++;
-          break;
-        case '7':
-          sevens++;
-          break;
-        case '8':
-          eights++;
-          break;
-        case '9':
-          nines++;
-          break;
-        case '10':
-          tens++;
-          break;
-        case '11':
-          elevens++;
-          break;
-        case '12':
-          twelves++;
-          break;
-        default:
-          break;
-      }
-    }
-    return (
-      <table>
-        <tbody>
-          <tr>
-            <th>2</th>
-            <th>3</th>
-            <th>4</th>
-            <th>5</th>
-            <th>6</th>
-            <th>7</th>
-            <th>8</th>
-            <th>9</th>
-            <th>10</th>
-            <th>11</th>
-            <th>12</th>
-          </tr>
-          <tr>
-            <td>{twos}</td>
-            <td>{threes}</td>
-            <td>{fours}</td>
-            <td>{fives}</td>
-            <td>{sixes}</td>
-            <td>{sevens}</td>
-            <td>{eights}</td>
-            <td>{nines}</td>
-            <td>{tens}</td>
-            <td>{elevens}</td>
-            <td>{twelves}</td>
-          </tr>
-        </tbody>
-      </table>
-    )
-  }
-}
 
 export default PlayGame;

@@ -3,15 +3,18 @@ import { Link } from 'react-router';
 
 import LoginWithGoogle from './LoginWithGoogle';
 
-const HomeContent = () => (
+const HomeContent = ( props ) => (
   <ul>
     <li><Link to="/new-game">New Game</Link></li>
-    <li><Link to="/previous-games">View and compare previous game stats</Link></li>
+    <li><Link to={`/view-game/`}>View and compare previous game stats</Link></li>
   </ul>
 );
 
 class Home extends React.Component {
+
   render() {
+    console.log(this.props);
+
     let content = (this.props.userLoggedIn) ? <HomeContent /> : <LoginWithGoogle />;
 
     return (
