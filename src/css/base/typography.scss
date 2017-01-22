@@ -1,0 +1,27 @@
+h1 {
+  font-size: 3.2rem;
+  font-family: $font-heading;
+}
+
+h2 {
+  font-size: 2.4rem;
+  font-family: $font-heading;
+}
+
+h3 {
+  font-size: 2rem;
+  font-family: $font-heading;
+}
+
+p, ul, div, section, main {
+  font-size: 1.6rem;
+  font-family: $font-main;
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italics;
+}

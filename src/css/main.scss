@@ -1,0 +1,30 @@
+@import './base/variables.scss';
+@import './base/reset.scss';
+@import './base/typography.scss';
+
+@import './layout/app-container.scss';
+
+@import './pages/new-game.scss';
+
+.playerColorBox {
+  display: inline-block;
+  vertical-align: top;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #000; 
+}
+
+.images__image {
+  width: 100%;
+  height: auto !important;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto 10px; 
+}
+
+.test {
+  color: red; 
+  &__ing {
+    color: blue;
+  }
+}

@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box; }
+  *:before, *:after {
+    box-sizing: inherit; }
+
+html, body {
+  margin: 0;
+  font-size: 62.5%;
+  font-family: open-sans; }
+
+h1, h2, h3, h4, p, ul {
+  margin: 0 0 2.5rem; }
+
+img {
+  max-width: 100%;
+  height: auto; }
+
+h1 {
+  font-size: 3.2rem;
+  font-family: "IM Fell English SC", serif; }
+
+h2 {
+  font-size: 2.4rem;
+  font-family: "IM Fell English SC", serif; }
+
+h3 {
+  font-size: 2rem;
+  font-family: "IM Fell English SC", serif; }
+
+p, ul, div, section, main {
+  font-size: 1.6rem;
+  font-family: "Lato", sans-serif; }
+
+strong {
+  font-weight: bold; }
+
+em {
+  font-style: italics; }
+
+.app {
+  max-width: 100%;
+  position: relative;
+  padding: 50px 0 0; }
+  .app__topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    padding: 0 3%;
+    transition: all .18s ease-in;
+    transform: translate3d(0, 0, 0);
+    will-change: transform; }
+    .app__topbar .menu-icon {
+      width: 46px;
+      height: 26px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; }
+      .app__topbar .menu-icon__bar {
+        width: 100%;
+        height: 4px;
+        background: #fff;
+        border-radius: 2px;
+        position: relative; }
+  .app__gnav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background: #000;
+    color: #fff;
+    transition: all .18s ease-in;
+    will-change: transform;
+    transform: translate3d(-100%, 0, 0);
+    padding: 0 3% 0 23%; }
+    .app__gnav a, .app__gnav a:link, .app__gnav a:visited {
+      font-family: "IM Fell English SC", serif;
+      font-size: 1.8rem;
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 8px 0; }
+  .app__content {
+    position: relative;
+    padding: 0 3%;
+    transition: all .18s ease-in;
+    will-change: transform; }
+  .app--mmenu-open .app__topbar,
+  .app--mmenu-open .app__content {
+    transform: translate3d(80%, 0, 0); }
+  .app--mmenu-open .app__gnav {
+    transform: translate3d(-20%, 0, 0); }
+
+.page.new-game .new-game__section-wrapper {
+  position: relative; }
+  .page.new-game .new-game__section-wrapper .new-game__section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity .3s ease-out;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1; }
+  .page.new-game .new-game__section-wrapper.current-1 .new-game__section--1 {
+    opacity: 1;
+    z-index: 1;
+    pointer-events: auto; }
+  .page.new-game .new-game__section-wrapper.current-2 .new-game__section--2 {
+    opacity: 1;
+    z-index: 1;
+    pointer-events: auto; }
+  .page.new-game .new-game__section-wrapper.current-3 .new-game__section--3 {
+    opacity: 1;
+    z-index: 1;
+    pointer-events: auto; }
+
+.page.new-game .step {
+  margin: 0 0 25px;
+  padding: 0;
+  counter-reset: step;
+  display: flex;
+  justify-content: space-between; }
+  .page.new-game .step li {
+    counter-increment: step;
+    list-style: none;
+    position: relative;
+    text-decoration: center;
+    color: #999;
+    transition: color .2s ease-out; }
+    .page.new-game .step li:before {
+      content: counter(step);
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateY(-50%); }
+    .page.new-game .step li:after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid #000;
+      margin: 0 auto;
+      opacity: 0;
+      transition: opacity .2s ease-out; }
+  .page.new-game .step--1 .step__1 {
+    color: #000; }
+    .page.new-game .step--1 .step__1:after {
+      opacity: 1; }
+  .page.new-game .step--2 .step__1 {
+    color: green; }
+  .page.new-game .step--2 .step__2 {
+    color: #000; }
+    .page.new-game .step--2 .step__2:after {
+      opacity: 1; }
+  .page.new-game .step--3 .step__1,
+  .page.new-game .step--3 .step__2 {
+    color: green; }
+  .page.new-game .step--3 .step__3 {
+    color: #000; }
+    .page.new-game .step--3 .step__3:after {
+      opacity: 1; }
+
+.playerColorBox {
+  display: inline-block;
+  vertical-align: top;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #000; }
+
+.images__image {
+  width: 100%;
+  height: auto !important;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto 10px; }
+
+.test {
+  color: red; }
+  .test__ing {
+    color: blue; }

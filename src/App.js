@@ -2,8 +2,6 @@ import React from 'react';
 import { Router, Route, IndexRoute, hashHistory, Link } from 'react-router';
 import firebase from 'firebase';
 
-import './app.css';
-
 var config = {
   apiKey: "AIzaSyCk-IkfURqs327D30ysTnWRCWk06keRV8s",
   authDomain: "settlers-statisics.firebaseapp.com",
@@ -27,6 +25,7 @@ class Wrapper extends React.Component {
       userLoggedIn: false,
       user: null,
       redirectPath: window.location.pathname,
+      menuOpen: false,
     };
   }
   componentDidMount = () => {
@@ -44,12 +43,27 @@ class Wrapper extends React.Component {
       }
     })
   }
+  toggleMenu = () => {
+    this.setState({
+      menuOpen: !this.state.menuOpen,
+    });
+  }
   render() {
     return (
-      <div>
-        <nav className="app__gnav">
-          <Link to="/">Home</Link> <Link to="/new-game">New Game</Link> <Link to="/view-game/">Previous Games</Link>
+      <div className={`app app--mmenu-${ this.state.menuOpen ? 'open' : 'closed' }`}>
+        <nav className="app__gnav" onClick={this.toggleMenu}>
+          <h1>Settlers Statistics</h1>
+          <div className='links'>
+            <Link to="/">Home</Link> <Link to="/new-game">New Game</Link> <Link to="/view-game/">Previous Games</Link>
+          </div>
         </nav>
+        <div className="app__topbar">
+          <div className='menu-icon' onClick={this.toggleMenu}>
+            <div className='menu-icon__bar' />
+            <div className='menu-icon__bar' />
+            <div className='menu-icon__bar' />
+          </div>
+        </div>
         <div className="app__content">
           {React.Children.map(this.props.children, (child) => {
             return React.cloneElement(child, {
@@ -71,7 +85,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="app">
+      <div>
         <Router history={hashHistory}>
           <Route path="/" component={Wrapper}>
             <IndexRoute component={Home} />

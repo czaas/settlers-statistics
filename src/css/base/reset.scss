@@ -1,0 +1,22 @@
+* {
+  box-sizing: border-box;
+
+  &:before, &:after {
+    box-sizing: inherit;
+  }
+}
+
+html, body {
+  margin: 0;
+  font-size: 62.5%;
+  font-family: open-sans;
+}
+
+h1, h2, h3, h4, p, ul { 
+  margin: 0 0 2.5rem;
+}
+
+img {
+  max-width: 100%;
+  height: auto; 
+}

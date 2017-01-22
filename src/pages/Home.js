@@ -13,7 +13,6 @@ const HomeContent = ( props ) => (
 class Home extends React.Component {
 
   render() {
-    console.log(this.props);
 
     let content = (this.props.userLoggedIn) ? <HomeContent /> : <LoginWithGoogle />;
 

@@ -19,11 +19,12 @@ class NewGame extends Component {
     this.state = {
       scenario: '',
       date: today,
-      players: []
+      players: [],
+      partActive: 1,
     };
   }
 
-  partOne = (e) => {
+  saveScenarioName = (e) => {
     e.preventDefault();
 
     let scenario = this.refs.scenario.value;
@@ -33,6 +34,7 @@ class NewGame extends Component {
     this.setState({
       scenario: scenario,
     });
+    this.setActivePartOfForm(2);
   }
 
   addPlayer = (e) => {
@@ -50,6 +52,22 @@ class NewGame extends Component {
 
     this.setState({
       players: [...this.state.players, playerTemplate]
+    });
+  }
+
+  undoLastPlayer = (e) => {
+    e.preventDefault();
+
+    let newListOfPlayers = [];
+
+    for (let i = 0; i < this.state.players.length; i++) {
+      if (this.state.players[i].order !== this.state.players.length) {
+        newListOfPlayers.push(this.state.players[i]);
+      }
+    }
+
+    this.setState({
+      players: [...newListOfPlayers],
     });
   }
 
@@ -85,6 +103,12 @@ class NewGame extends Component {
     this.props.router.push(`/play-game/${ gameRef }`);
   }
 
+  setActivePartOfForm = (part) => {
+    this.setState({
+      partActive: part
+    });
+  }
+
   render() {
 
     let players = this.state.players.map((player, index) => {
@@ -92,43 +116,62 @@ class NewGame extends Component {
     });
 
     return (
-      <div>
-        <h1>Starting a New Game</h1>
+      <div className="page new-game">
+        <h1>Start a New Game</h1>
 
-        <hr />        
+        <ol className={`step step--${this.state.partActive}`}>
+          <li className="step__1" onClick={this.setActivePartOfForm.bind(this, 1)}>Set Scenario</li>
+          <li className="step__2" onClick={this.setActivePartOfForm.bind(this, 2)}>Add Players</li>
+          <li className="step__3" onClick={this.setActivePartOfForm.bind(this, 3)}>Confirm Details</li>
+        </ol>
 
-        <form ref="scenarioForm" onSubmit={this.partOne}>
-          <p>Setup your gameboard for your prefered scenario and enter that scenario name below.</p>
-          <input type="text" ref="scenario" placeholder="Scenario name" required="true" />
-          <button>Save</button>
-        </form>
-
-        <hr />
-
-        <form ref="addPlayerForm" onSubmit={this.addPlayer}>
-          <h2>Adding players</h2>
+        <div className={`new-game__section-wrapper current-${this.state.partActive}`}>
+          <div className="new-game__section new-game__section--1">
+            <form ref="scenarioForm" onSubmit={this.saveScenarioName}>
+              <h2>Add Scenario Name</h2>
+              <p>Setup your gameboard for your prefered scenario and enter that scenario name below.</p>
+              <input type="text" ref="scenario" placeholder="Scenario name" required="true" />
+              <button>Next</button>
+            </form>
+          </div>
           
-          <p>Now have everyone roll the dice. to see who goes first.</p>
+          <div className="new-game__section new-game__section--2">
+            <form ref="addPlayerForm" onSubmit={this.addPlayer}>
+              <h2>Adding players</h2>
+              
+              <p>Now have everyone roll the dice. to see who goes first.</p>
 
-          <p>Add player #{this.state.players.length + 1}</p>
+              <p>Add player #{this.state.players.length + 1}</p>
 
-          <input type="text" ref="playerName" placeholder="Player Name" />
-          <input type="text" ref="playerColor" placeholder="Player Color" />
-          <button>Add player</button>
-        </form>
+              <input type="text" ref="playerName" placeholder="Player Name" />
+              <input type="text" ref="playerColor" placeholder="Player Color" />
+              <button>Add player</button>
+            </form>
 
-        <hr />
+            <button onClick={this.undoLastPlayer}>Undo last player</button>
 
-        <h2>Game Details</h2>
-        <h3>{this.state.scenario}</h3>
-        <p><strong>Players</strong></p>
+            <ul> 
+              {players}
+            </ul>
 
-        <ul> 
-          {players}
-        </ul>
+            <button onClick={this.setActivePartOfForm.bind(this, 3)}>Review and Confirm Game Details</button>
+          </div>
 
-        <p>Once everyone has been entered, continue below to start collecting statistics!</p>
-        <a onClick={this.startGame}>Start Game</a>
+          <div className="new-game__section new-game__section--3">
+            <h2>Confirm Game Details</h2>
+            <p>Confirm your scenario name and players. There will be no changing these after this point.</p>
+
+            <p>Scenario Name <strong>{this.state.scenario}</strong></p>
+
+            <p><strong>Players</strong></p>
+
+            <ul> 
+              {players}
+            </ul>
+
+            <button onClick={this.startGame}>Start Game</button>
+          </div>
+        </div>
       </div>
     );
   }
