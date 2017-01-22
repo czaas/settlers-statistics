@@ -14,15 +14,12 @@ body {
   height: 10px;
   border: 1px solid #000;
 }
+
 img {
   max-width: 100%;
   height: auto;
 }
-.images {
-  // display: flex;
-  max-width: 100%;
 
-}
 .images__image {
   width: 100%;
   height: auto !important;

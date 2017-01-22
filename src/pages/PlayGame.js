@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 
 import DiceRolled from './shared/DiceRolled';
+import GetImages from './shared/GetImages';
 
 class PlayGame extends Component {
   constructor() {
@@ -99,12 +100,11 @@ class PlayGame extends Component {
 
         newImageRef.putString(reader.result, 'data_url').then((snapshot) => {
           console.log('image uploaded');
-          this.refs.imageUploader.reset();
-          this.getImages();
-        });
-
-        this.gameReference.update({
-          images: hasImages,
+          this.refs.imageUploader.value = '';
+          
+          this.gameReference.update({
+            images: hasImages,
+          });
         });
       }, false);
 
@@ -116,34 +116,7 @@ class PlayGame extends Component {
     }
   }
 
-  getImages = () => {
-    if (this.state.haveReceivedData && this.state.game.images) {
-      for ( let i = 0; i < this.state.game.images; i++) {
-        let imageRef = firebase.storage().ref(`games/${ this.props.params.id }/${ i + 1 }.jpg`);
-
-        imageRef.getDownloadURL().then((url) => {
-
-          switch(i) {
-            case 0:
-              this.refs.imageOne.src = url;
-              break;
-            case 1:
-              this.refs.imageTwo.src = url;
-              break;
-            case 2:
-              this.refs.imageThree.src = url;
-              break;
-            default:
-              break;
-          }
-        });
-      }
-    }
-  }
-
   render() {
-    this.getImages();
-
     let playersSelectableOptions = [];
     let playersTurn;
     let nextTurnNumber;
@@ -224,11 +197,7 @@ class PlayGame extends Component {
           <input type="file" accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} />
         </form>
 
-        <div className='images'>
-          <img role="presentation" ref="imageOne" className='images__image' />
-          <img role="presentation" ref="imageTwo" className='images__image' />
-          <img role="presentation" ref="imageThree" className='images__image' />
-        </div>
+        <GetImages id={this.props.params.id} amountOfImages={this.state.game.images || 0} />
 
         <form>
           Winner

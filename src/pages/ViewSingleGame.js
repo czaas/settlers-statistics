@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 
 import DiceRolled from './shared/DiceRolled';
+import GetImages from './shared/GetImages';
 
 class ViewSingleGame extends Component {
   constructor() {
@@ -53,16 +54,19 @@ class ViewSingleGame extends Component {
 
     return (
       <div>
-        
-        <h2>Dice rolled</h2>
-
-        <DiceRolled rolls={this.state.game.rolls} />
+        <p><strong>Winner</strong> {winner}</p>
         
         <p><strong>Longest Road</strong> was held by {lrSelected}</p>
 
         <p><strong>Longest Army</strong> was held by {laSelected}</p>    
 
-        <p><strong>Winner</strong> {winner}</p>
+        <h2>Dice rolled</h2>
+
+        <DiceRolled rolls={this.state.game.rolls} />
+
+        <GetImages id={this.props.params.id} amountOfImages={this.state.game.images || 0} />
+
+
       </div>
     );
   }
