@@ -14,13 +14,13 @@ class PlayGame extends Component {
     };
   }
 
-  componentWillMount = () => {  
+  componentDidMount = () => {  
     this.gameReference = firebase.database().ref(`games/${ this.props.params.id }`);
     this.gameReference.on('value', (snapshot) => {
       this.setState({
         haveReceivedData: true,
         game: snapshot.val(),
-      })
+      });
     });
   }
 
@@ -98,7 +98,9 @@ class PlayGame extends Component {
         let image = reader.result.slice(baseLength, reader.result.length);
 
         newImageRef.putString(reader.result, 'data_url').then((snapshot) => {
-          console.log('uploaded?', snapshot);
+          console.log('image uploaded');
+          this.refs.imageUploader.reset();
+          this.getImages();
         });
 
         this.gameReference.update({
@@ -115,35 +117,39 @@ class PlayGame extends Component {
   }
 
   getImages = () => {
-    let images = [];
-
     if (this.state.haveReceivedData && this.state.game.images) {
-      console.log('has images', this.state.game.images)
       for ( let i = 0; i < this.state.game.images; i++) {
         let imageRef = firebase.storage().ref(`games/${ this.props.params.id }/${ i + 1 }.jpg`);
 
         imageRef.getDownloadURL().then((url) => {
-          console.log(url.split('?')[0]);
-          let newImage = <img src={url} />;
-          images.push(newImage);
 
-          this.refs.test.src = url;
+          switch(i) {
+            case 0:
+              this.refs.imageOne.src = url;
+              break;
+            case 1:
+              this.refs.imageTwo.src = url;
+              break;
+            case 2:
+              this.refs.imageThree.src = url;
+              break;
+            default:
+              break;
+          }
         });
       }
-
-      return images;
     }
   }
 
   render() {
+    this.getImages();
+
     let playersSelectableOptions = [];
     let playersTurn;
     let nextTurnNumber;
     let lrSelected = 'no one';
     let laSelected = 'no one';
     let winner = 'no one';
-
-    console.log(this.state);
 
     if (this.state.haveReceivedData) {
       const players = this.state.game.players;
@@ -179,6 +185,7 @@ class PlayGame extends Component {
 
     return (
       <div>
+        <h2>{this.state.game.scenario}</h2>
         <p>It is {playersTurn}'s turn. Select the dice you've rolled.</p>
         <p>Current Turn number: {(nextTurnNumber + 1)}</p>
         <form>
@@ -217,9 +224,10 @@ class PlayGame extends Component {
           <input type="file" accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} />
         </form>
 
-        <div>
-          {this.getImages()}
-          <img ref="test" />
+        <div className='images'>
+          <img role="presentation" ref="imageOne" className='images__image' />
+          <img role="presentation" ref="imageTwo" className='images__image' />
+          <img role="presentation" ref="imageThree" className='images__image' />
         </div>
 
         <form>

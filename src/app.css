@@ -1,7 +1,32 @@
+body {
+  margin: 0;
+}
+
+
+.app {
+  max-width: 100%;
+}
+
 .playerColorBox {
   display: inline-block;
   vertical-align: top;
   width: 10px;
   height: 10px;
   border: 1px solid #000;
+}
+img {
+  max-width: 100%;
+  height: auto;
+}
+.images {
+  // display: flex;
+  max-width: 100%;
+
+}
+.images__image {
+  width: 100%;
+  height: auto !important;
+  max-width: 250px;
+  display: block;
+  margin: 0 auto 10px;
 }
