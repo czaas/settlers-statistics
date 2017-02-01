@@ -1,0 +1,19 @@
+import React, { Component } from 'react';
+
+import LoginForms from './shared/LoginForms';
+
+class Home extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Home</h1>
+
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vitae quibusdam recusandae adipisci animi doloribus maxime molestias nostrum, accusamus laudantium libero, a vero unde expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates esse saepe iste. Optio, ea, asperiores.</p>
+
+        {this.props.loggedIn ? null : <LoginForms /> }
+      </div>
+    );
+  }
+}
+
+export default Home;
