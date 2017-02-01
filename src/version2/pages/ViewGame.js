@@ -1,27 +1,30 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
+
+import SettlersStore from './_store';
 
 import DiceRolled from './shared/DiceRolled';
-import GetImages from './shared/GetImages';
 
-class ViewSingleGame extends Component {
-  constructor() {
-    super();
-
-    this.gameReference = undefined;
-    this.state = {
-      haveReceivedData: false,
-      game: {}
-    };
+export default class ViewGame extends Component {
+  state = {
+    haveReceivedData: false,
+    game: {},
+    images: [],
   }
 
-  componentWillMount = () => {  
-    this.gameReference = firebase.database().ref(`games/${ this.props.params.id }`);
-    this.gameReference.on('value', (snapshot) => {
+  componentWillMount = () => {
+    this.store = new SettlersStore();
+
+    this.store.getImageUrls(this.props.match.params.id, (images) => {
+      this.setState({
+        images: images,
+      });
+    });
+
+    this.store.getGame(this.props.match.params.id, (val) => {
       this.setState({
         haveReceivedData: true,
-        game: snapshot.val(),
-      })
+        game: val,
+      });
     });
   }
 
@@ -29,6 +32,10 @@ class ViewSingleGame extends Component {
     let lrSelected = 'no one';
     let laSelected = 'no one';
     let winner = 'no one';
+
+    let theImages = this.state.images.map((url, index) => {
+      return <img src={url} role="presentation" key={`image-${ index }`} />
+    });
 
     if (this.state.haveReceivedData) {
       const players = this.state.game.players;
@@ -51,7 +58,6 @@ class ViewSingleGame extends Component {
         }
       }
     }
-
     return (
       <div>
         <p><strong>Winner</strong> {winner}</p>
@@ -64,11 +70,11 @@ class ViewSingleGame extends Component {
 
         <DiceRolled rolls={this.state.game.rolls} />
 
-        <GetImages id={this.props.params.id} amountOfImages={this.state.game.images || 0} />
+        <h2>Images</h2>
+        <div>
+          {theImages}
+        </div>
       </div>
     );
   }
 }
-
-
-export default ViewSingleGame;

@@ -23,6 +23,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 
 import Dashboard from './pages/Dashboard';
+import ViewGame from './pages/ViewGame';
 
 class App extends Component {
   state = {
@@ -43,7 +44,7 @@ class App extends Component {
           user: null,
         });
       }
-    })
+    });
   }
   render() {
     let userStateLinks = (this.state.userLoggedIn) ?
@@ -67,7 +68,8 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} loggedIn={this.state.userLoggedIn} />
           <Route path="/logout" component={Logout} loggedIn={this.state.userLoggedIn} />
-          <PrivateRoute path="/dashboard" component={Dashboard} loggedIn={this.state.userLoggedIn} />
+          <PrivateRoute path="/dashboard" exact component={Dashboard} loggedIn={this.state.userLoggedIn} />
+          <PrivateRoute path="/dashboard/game/:id" exact component={ViewGame} loggedIn={this.state.userLoggedIn} />
         </div>
       </Router>
     );
@@ -81,7 +83,7 @@ const PrivateRoute = ({ component, ...rest }) => (
     ) : (
       <Redirect to={{
         pathname: '/login',
-        state: { from: props.path }
+        state: { from: props.path, id: props.match.params.id }
       }}/>
     )
   )}/>
