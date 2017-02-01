@@ -1,0 +1,79 @@
+.app {
+  max-width: 100%; 
+  position: relative;
+  padding: 50px 0 0;
+  
+  &__topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 44px;
+    background: #222;
+    display: flex;
+    align-items: center;
+    padding: 0 3%;
+    transition: all .18s ease-in;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+
+    .menu-icon {
+      width: 46px;
+      height: 26px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      &__bar {
+        width: 100%;
+        height: 4px;
+        background: #fff;
+        border-radius: 2px;
+        position: relative;
+      }
+    }
+  }
+
+  &__gnav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background: #000; 
+    color: #fff;
+    transition: all .18s ease-in-out;
+    will-change: transform;
+
+    transform: translate3d(-100%, 0, 0);
+    padding: 0 3% 0 23%;
+
+    a, a:link, a:visited {
+      font-family: $font-heading;
+      font-size: 1.8rem;
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 8px 0;
+    }
+  }
+
+  &__content {
+    position: relative;
+    padding: 0 3%;
+    transition: all .18s ease-in;
+    will-change: transform;
+  }
+
+  &--mmenu-open {
+    .app__topbar,
+    .app__content {
+      transform: translate3d(80%, 0, 0);
+    }
+    .app__gnav {
+      transform: translate3d(-20%, 0, 0);
+    }
+  }
+}

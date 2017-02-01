@@ -76,7 +76,7 @@ em {
     min-height: 100vh;
     background: #000;
     color: #fff;
-    transition: all .18s ease-in-out;
+    transition: all .18s ease-in;
     will-change: transform;
     transform: translate3d(-100%, 0, 0);
     padding: 0 3% 0 23%; }
@@ -97,35 +97,6 @@ em {
     transform: translate3d(80%, 0, 0); }
   .app--mmenu-open .app__gnav {
     transform: translate3d(-20%, 0, 0); }
-
-.dice-rolled-table {
-  text-align: center;
-  width: 100%;
-  max-width: 450px; }
-  .dice-rolled-table th:first-child,
-  .dice-rolled-table td:first-child {
-    text-align: right; }
-
-.dice {
-  width: 36px;
-  height: 36px;
-  border: 1px solid #000;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 4px;
-  box-sizing: border-box;
-  border-radius: 3px; }
-  .dice__row {
-    display: flex;
-    justify-content: space-around;
-    box-sizing: border-box; }
-  .dice__dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #000;
-    box-sizing: border-box; }
 
 .page.new-game .new-game__section-wrapper {
   position: relative; }
@@ -199,19 +170,6 @@ em {
     color: #000; }
     .page.new-game .step--3 .step__3:after {
       opacity: 1; }
-
-.dice-form {
-  max-width: 450px;
-  display: flex;
-  flex-wrap: wrap; }
-  .dice-form > a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1 1 33.3%;
-    height: 50px;
-    text-align: center;
-    border: 1px solid #000; }
 
 .playerColorBox {
   display: inline-block;

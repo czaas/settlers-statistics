@@ -1,0 +1,17 @@
+.dice-form {
+  max-width: 450px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 33.3%;
+    height: 50px;
+    text-align: center;
+
+    border: 1px solid #000;
+  } 
+}

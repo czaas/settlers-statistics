@@ -14,8 +14,8 @@
     "react-router": "^3.0.1"
   },
   "scripts": {
-    "start": "react-scripts start && npm run scss-build",
-    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build&& npm run scss-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "scss-build": "node-sass ./src/css/main.scss",
