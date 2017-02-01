@@ -24,6 +24,7 @@ import Logout from './pages/Logout';
 
 import Dashboard from './pages/Dashboard';
 import ViewGame from './pages/ViewGame';
+import NewGame from './pages/NewGame';
 
 class App extends Component {
   state = {
@@ -47,9 +48,23 @@ class App extends Component {
     });
   }
   render() {
-    let userStateLinks = (this.state.userLoggedIn) ?
-      (<span><li><Link to="/dashboard">Dashboard</Link></li><li><Link to="/logout">Logout</Link></li></span>) :
-      (<li><Link to="/login">Login</Link></li>);
+    let userStateLinks = () => {
+      if (this.state.userLoggedIn) {
+        return (
+          <span>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><Link to="/dashboard/new-game">New Game</Link></li>
+            <li><Link to="/logout">Logout</Link></li>
+          </span>
+        );
+      } else {
+        return (
+          <span>
+            <li><Link to="/login">Login</Link></li>
+          </span>
+        );
+      }
+    }
     return (
       <Router>
         <div>
@@ -60,7 +75,7 @@ class App extends Component {
             </ul>
               <hr />
             <ul>
-              {userStateLinks}
+              {userStateLinks()}
             </ul>
           </nav>
 
@@ -68,8 +83,11 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} loggedIn={this.state.userLoggedIn} />
           <Route path="/logout" component={Logout} loggedIn={this.state.userLoggedIn} />
+
           <PrivateRoute path="/dashboard" exact component={Dashboard} loggedIn={this.state.userLoggedIn} />
           <PrivateRoute path="/dashboard/game/:id" exact component={ViewGame} loggedIn={this.state.userLoggedIn} />
+
+          <PrivateRoute path="/dashboard/new-game" exact component={NewGame} loggedIn={this.state.userLoggedIn} />
         </div>
       </Router>
     );
