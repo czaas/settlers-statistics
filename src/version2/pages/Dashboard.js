@@ -22,9 +22,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    let inProgressGames = [];
-    let finishedGames = [];
-
     let games = Object.keys(this.state.games).map((key, index) => {
       let currentGame = this.state.games[key];
       let linkLocation = (currentGame.finished) ? 'game' : 'play';
@@ -36,7 +33,7 @@ class Dashboard extends Component {
       <div>
         <h1>Dashboard</h1>
 
-        <p><Link to="/new-game">New Game</Link></p>
+        <p><Link to="/dashboard/new-game">New Game</Link></p>
 
         <p>Your Stats</p>
 
