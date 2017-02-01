@@ -15,42 +15,44 @@ class DiceRolled extends React.Component {
     let twelves = 0;
 
     for (var key in this.props.rolls) {
-      switch(this.props.rolls[key].number) {
-        case '2':
-          twos++;
-          break;
-        case '3':
-          threes++;
-          break;
-        case '4':
-          fours++;
-          break;
-        case '5':
-          fives++;
-          break;
-        case '6':
-          sixes++;
-          break;
-        case '7':
-          sevens++;
-          break;
-        case '8':
-          eights++;
-          break;
-        case '9':
-          nines++;
-          break;
-        case '10':
-          tens++;
-          break;
-        case '11':
-          elevens++;
-          break;
-        case '12':
-          twelves++;
-          break;
-        default:
-          break;
+      if (key.length) {
+        switch(this.props.rolls[key].number) {
+          case '2':
+            twos++;
+            break;
+          case '3':
+            threes++;
+            break;
+          case '4':
+            fours++;
+            break;
+          case '5':
+            fives++;
+            break;
+          case '6':
+            sixes++;
+            break;
+          case '7':
+            sevens++;
+            break;
+          case '8':
+            eights++;
+            break;
+          case '9':
+            nines++;
+            break;
+          case '10':
+            tens++;
+            break;
+          case '11':
+            elevens++;
+            break;
+          case '12':
+            twelves++;
+            break;
+          default:
+            break;
+        }
       }
     }
     return (
