@@ -25,6 +25,7 @@ import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
 import ViewGame from './pages/ViewGame';
 import NewGame from './pages/NewGame';
+import PlayGame from './pages/PlayGame';
 
 class App extends Component {
   state = {
@@ -86,6 +87,7 @@ class App extends Component {
 
           <PrivateRoute path="/dashboard" exact component={Dashboard} loggedIn={this.state.userLoggedIn} />
           <PrivateRoute path="/dashboard/game/:id" exact component={ViewGame} loggedIn={this.state.userLoggedIn} />
+          <PrivateRoute path="/dashboard/play/:id" exact component={PlayGame} loggedIn={this.state.userLoggedIn} />
 
           <PrivateRoute path="/dashboard/new-game" exact component={NewGame} loggedIn={this.state.userLoggedIn} />
         </div>

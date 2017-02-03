@@ -2,10 +2,15 @@ import firebase from 'firebase';
 import shortid from 'shortid';
 
 class SettlersStore {
-  constructor() {
+  constructor(currentGameId) {
     this.db = firebase.database();
 
     this.currentUser = firebase.auth().currentUser;
+    this.currentGameRef = undefined;
+
+    if (currentGameId) {
+      this.currentGameRef = this.db.ref(`games/${ currentGameId }`);
+    }
   }
   getGameList(cb) {
     this.db.ref(`users/${ this.currentUser.uid }/games`).once('value', (snapshot) => {
@@ -15,6 +20,12 @@ class SettlersStore {
 
   getGame(id, cb) {
     this.db.ref(`games/${ id }`).once('value').then((snapshot) => {
+      cb(snapshot.val());
+    });
+  }
+
+  subscribeToGame(id, cb) {
+    this.db.ref(`games/${ id }`).on('value', (snapshot) => {
       cb(snapshot.val());
     });
   }
@@ -33,9 +44,8 @@ class SettlersStore {
     let today = `${formattedMonth}-${day}-${year}`;
 
     let gameRef = shortid.generate();
-
     let gameDetails = Object.assign({}, {
-      scenarioName: '',
+      scenario: '',
       players: [],
       date: today,
       id: gameRef,
@@ -46,10 +56,32 @@ class SettlersStore {
       host: this.currentUser.uid,
     }, newGameSettings);
 
-    console.log(gameDetails);
+
+    // adding game
+    this.currentGameRef = this.db.ref(`games/${ gameRef }`);
+    this.currentGameRef.set(gameDetails);
 
     // Save game to users reference
-    this.db.ref(`games/${ gameRef }`).set(gameDetails);
+    this.db.ref(`users/${ this.currentUser.uid }/games/${ gameRef }`).set({
+      date: today,
+      id: gameRef,
+      scenario: gameDetails.scenario,
+    }).then(() => cb(gameRef));
+  }
+
+  addDiceRoll(settings, cb) {
+    this.currentGameRef.child(`rolls`).push({
+      number: settings.number,
+      order: settings.order
+    }).then((res) => {
+      cb();
+    });
+  }
+
+  removeRoll(currentDiceRoll, cb) {
+    if (currentDiceRoll) {
+      this.currentGameRef.child(`rolls/${ currentDiceRoll }`).remove();
+    }
   }
 
   saveGameRefToUser(gameDetails) {
