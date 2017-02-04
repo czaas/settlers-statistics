@@ -1,0 +1,65 @@
+@import './../base/mixins.scss';
+
+.dice-form {
+  max-width: 450px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 33%;
+    height: 50px;
+    text-align: center;
+
+    border: 1px solid #000;
+    background: #fff;
+  } 
+}
+
+.fab {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
+  &__shield {
+    // this is the background when the drawer is open and the user can tap and close the drawer;
+    @include shield;
+  }
+
+  &__button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 1.2rem;
+  }
+
+  &__drawer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    max-height: 80vh;
+
+    @include accelerateOut(0, 10%);
+
+    z-index: 3; 
+    background: #fff;
+  }
+
+  &__open {
+    .fab__shield {
+      @include shield($isOpen: true);
+    }
+    .fab__drawer {
+      @include decelerateIn(0, -100%);
+      box-shadow: 2px 1px 15px #666;
+    }
+  }
+
+}

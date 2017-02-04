@@ -6,7 +6,9 @@ class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
+        <header>
+          <h1>Home</h1>
+        </header>
 
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vitae quibusdam recusandae adipisci animi doloribus maxime molestias nostrum, accusamus laudantium libero, a vero unde expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates esse saepe iste. Optio, ea, asperiores.</p>
 

@@ -31,6 +31,7 @@ class App extends Component {
   state = {
     user: null,
     userLoggedIn: false,
+    drawerOpen: false,
   }
 
   componentDidMount = () => {
@@ -46,6 +47,19 @@ class App extends Component {
           user: null,
         });
       }
+    });
+  }
+
+  toggleDrawer = (preference) => {
+
+    let newDrawerState = !this.state.drawerOpen;
+
+    if (typeof preference === 'boolean') {
+      newDrawerState = preference;
+    }
+
+    this.setState({
+      drawerOpen: newDrawerState,
     });
   }
   render() {
@@ -68,17 +82,23 @@ class App extends Component {
     }
     return (
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/about">About</Link></li>
-            </ul>
-              <hr />
-            <ul>
-              {userStateLinks()}
-            </ul>
-          </nav>
+        <div className={`app ${this.state.drawerOpen ? 'app--open' : ''}`}>
+          <div className={`app__drawer ${this.state.drawerOpen ? 'app__drawer--open' : ''}`}>
+            <nav className="app__drawer__nav">
+              <ul>
+                <li><Link to="/">Home</Link></li>
+                <li><Link to="/about">About</Link></li>
+              </ul>
+                <hr />
+              <ul>
+                {userStateLinks()}
+              </ul>
+            </nav>
+          </div>
+          <div className={`app__shield  ${this.state.drawerOpen ? 'app__shield--open' : ''}`} onClick={this.toggleDrawer} />
+          <div className="app__topnav">
+            <i className="material-icons" onClick={this.toggleDrawer}>menu</i>
+          </div>
 
           <Route exact path="/" component={Home} loggedIn={this.state.userLoggedIn} />
           <Route path="/about" component={About} />

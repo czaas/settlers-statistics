@@ -1,3 +1,10 @@
+/* ==
+700 status bars
+500 dominent theme
+300 secondary info
+
+accent colors are brighter
+*/
 * {
   box-sizing: border-box; }
   *:before, *:after {
@@ -8,6 +15,9 @@ html, body {
   font-size: 62.5%;
   font-family: open-sans; }
 
+body {
+  font-size: 1.6rem; }
+
 h1, h2, h3, h4, p, ul {
   margin: 0 0 2.5rem; }
 
@@ -15,88 +25,79 @@ img {
   max-width: 100%;
   height: auto; }
 
-h1 {
-  font-size: 3.2rem;
-  font-family: "IM Fell English SC", serif; }
+/* ==
+700 status bars
+500 dominent theme
+300 secondary info
 
-h2 {
-  font-size: 2.4rem;
-  font-family: "IM Fell English SC", serif; }
-
-h3 {
-  font-size: 2rem;
-  font-family: "IM Fell English SC", serif; }
-
-p, ul, div, section, main {
-  font-size: 1.6rem;
-  font-family: "Lato", sans-serif; }
-
-strong {
-  font-weight: bold; }
-
-em {
-  font-style: italics; }
-
+accent colors are brighter
+*/
 .app {
-  max-width: 100%;
   position: relative;
-  padding: 50px 0 0; }
-  .app__topbar {
+  border-top: 60px solid #303F9F; }
+  .app__topnav {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 44px;
-    background: #222;
-    display: flex;
-    align-items: center;
-    padding: 0 3%;
-    transition: all .18s ease-in;
-    transform: translate3d(0, 0, 0);
-    will-change: transform; }
-    .app__topbar .menu-icon {
-      width: 46px;
-      height: 26px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between; }
-      .app__topbar .menu-icon__bar {
-        width: 100%;
-        height: 4px;
-        background: #fff;
-        border-radius: 2px;
-        position: relative; }
-  .app__gnav {
-    position: absolute;
+    height: 60px;
+    background: #303F9F;
+    color: #fff;
+    padding: 15px;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }
+    .app__topnav .material-icons {
+      font-size: 3.4rem; }
+  .app__drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    overflow: hidden;
+    z-index: 10;
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid #ccc;
+    z-index: 201;
+    transform: translate3d(-300px, 0, 0);
+    transition: transform 195ms cubic-bezier(0.4, 0, 1, 1); }
+    .app__drawer--open {
+      transform: translate3d(0, 0, 0);
+      transition: transform 195ms cubic-bezier(0.4, 0, 1, 1); }
+  .app__shield {
+    z-index: 200 !important;
+    content: '';
+    display: block;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    min-height: 100vh;
-    background: #000;
-    color: #fff;
-    transition: all .18s ease-in-out;
-    will-change: transform;
-    transform: translate3d(-100%, 0, 0);
-    padding: 0 3% 0 23%; }
-    .app__gnav a, .app__gnav a:link, .app__gnav a:visited {
-      font-family: "IM Fell English SC", serif;
-      font-size: 1.8rem;
-      color: #fff;
-      text-decoration: none;
+    height: 100vh;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.3);
+    transition: opacity 195ms ease-in; }
+    .app__shield--open {
+      content: '';
       display: block;
-      padding: 8px 0; }
-  .app__content {
-    position: relative;
-    padding: 0 3%;
-    transition: all .18s ease-in;
-    will-change: transform; }
-  .app--mmenu-open .app__topbar,
-  .app--mmenu-open .app__content {
-    transform: translate3d(80%, 0, 0); }
-  .app--mmenu-open .app__gnav {
-    transform: translate3d(-20%, 0, 0); }
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.3);
+      transition: opacity 195ms ease-in;
+      pointer-events: auto;
+      opacity: .2; }
+
+header {
+  background: #3F51B5;
+  color: #fff;
+  padding: 15px;
+  margin: 0 0 25px; }
 
 .dice-rolled-table {
   text-align: center;
@@ -127,107 +128,78 @@ em {
     background: #000;
     box-sizing: border-box; }
 
-.page.new-game .new-game__section-wrapper {
-  position: relative; }
-  .page.new-game .new-game__section-wrapper .new-game__section {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: opacity .3s ease-out;
-    opacity: 0;
-    pointer-events: none;
-    z-index: -1; }
-  .page.new-game .new-game__section-wrapper.current-1 .new-game__section--1 {
-    opacity: 1;
-    z-index: 1;
-    pointer-events: auto; }
-  .page.new-game .new-game__section-wrapper.current-2 .new-game__section--2 {
-    opacity: 1;
-    z-index: 1;
-    pointer-events: auto; }
-  .page.new-game .new-game__section-wrapper.current-3 .new-game__section--3 {
-    opacity: 1;
-    z-index: 1;
-    pointer-events: auto; }
+/* ==
+700 status bars
+500 dominent theme
+300 secondary info
 
-.page.new-game .step {
-  margin: 0 0 25px;
-  padding: 0;
-  counter-reset: step;
-  display: flex;
-  justify-content: space-between; }
-  .page.new-game .step li {
-    counter-increment: step;
-    list-style: none;
-    position: relative;
-    text-decoration: center;
-    color: #999;
-    transition: color .2s ease-out; }
-    .page.new-game .step li:before {
-      content: counter(step);
-      position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateY(-50%); }
-    .page.new-game .step li:after {
-      content: '';
-      display: block;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-bottom: 5px solid #000;
-      margin: 0 auto;
-      opacity: 0;
-      transition: opacity .2s ease-out; }
-  .page.new-game .step--1 .step__1 {
-    color: #000; }
-    .page.new-game .step--1 .step__1:after {
-      opacity: 1; }
-  .page.new-game .step--2 .step__1 {
-    color: green; }
-  .page.new-game .step--2 .step__2 {
-    color: #000; }
-    .page.new-game .step--2 .step__2:after {
-      opacity: 1; }
-  .page.new-game .step--3 .step__1,
-  .page.new-game .step--3 .step__2 {
-    color: green; }
-  .page.new-game .step--3 .step__3 {
-    color: #000; }
-    .page.new-game .step--3 .step__3:after {
-      opacity: 1; }
-
+accent colors are brighter
+*/
 .dice-form {
   max-width: 450px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap; }
   .dice-form > a {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1 1 33.3%;
+    flex: 1 1 33%;
     height: 50px;
     text-align: center;
-    border: 1px solid #000; }
+    border: 1px solid #000;
+    background: #fff; }
 
-.playerColorBox {
-  display: inline-block;
-  vertical-align: top;
-  width: 10px;
-  height: 10px;
-  border: 1px solid #000; }
-
-.images__image {
+.fab {
+  position: fixed;
+  top: 100%;
+  left: 0;
   width: 100%;
-  height: auto !important;
-  max-width: 250px;
-  display: block;
-  margin: 0 auto 10px; }
-
-.test {
-  color: red; }
-  .test__ing {
-    color: blue; }
+  z-index: 100; }
+  .fab__shield {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.3);
+    transition: opacity 195ms ease-in; }
+  .fab__button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    font-size: 1.2rem; }
+  .fab__drawer {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    max-height: 80vh;
+    transform: translate3d(0, 10%, 0);
+    transition: transform 195ms cubic-bezier(0.4, 0, 1, 1);
+    z-index: 3;
+    background: #fff; }
+  .fab__open .fab__shield {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.3);
+    transition: opacity 195ms ease-in;
+    pointer-events: auto;
+    opacity: .2; }
+  .fab__open .fab__drawer {
+    transform: translate3d(0, -100%, 0);
+    transition: transform 195ms cubic-bezier(0.4, 0, 1, 1);
+    box-shadow: 2px 1px 15px #666; }

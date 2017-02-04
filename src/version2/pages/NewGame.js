@@ -96,7 +96,9 @@ export default class NewGame extends Component {
     });
     return (
       <div>
-        <h1>Start New Game</h1>
+        <header>
+          <h1>Start New Game</h1>
+        </header>
         <div className="card">
           <form onSubmit={this.handleScenario}>
             <h2>Add Scenario Name</h2>

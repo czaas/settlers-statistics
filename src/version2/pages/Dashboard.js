@@ -31,7 +31,9 @@ class Dashboard extends Component {
 
     return (
       <div>
-        <h1>Dashboard</h1>
+        <header>
+          <h1>Dashboard</h1>
+        </header>
 
         <p><Link to="/dashboard/new-game">New Game</Link></p>
 

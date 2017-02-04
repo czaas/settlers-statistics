@@ -15,6 +15,9 @@ export default class Logout extends Component {
   render() {
     return (
       <div>
+        <header>
+          <h1>Goodbye</h1>
+        </header>
         {(this.props.loggedIn) ? 'Logging out...' : 'You are now logged out. Redirecting...' }
       </div>
     );

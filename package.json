@@ -20,7 +20,7 @@
     "build": "react-scripts build&& npm run scss-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "scss-build": "node-sass ./src/css/main.scss",
-    "scss-dev": "node-sass --watch ./src/css/main.scss ./public/main.css"
+    "scss-build": "node-sass ./src/version2/css/main.scss",
+    "scss-dev": "node-sass --watch ./src/version2/css/main.scss ./public/main.css"
   }
 }

@@ -38,16 +38,19 @@ export default class PlayGame extends Component {
   render() {
     let lrSelected = 'no one';
     let laSelected = 'no one';
+    let players = [];
+    let currentAmountOfRolls = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
 
     let theImages = this.state.images.map((url, index) => {
       return <img src={url} role="presentation" key={`image-${ index }`} />
     });
 
     if (this.state.haveReceivedData) {
-      const players = this.state.game.players;
 
       for (let i = 0; i < players.length; i++) {
         let player = players[i];
+
+        players.push(player);
 
         // getting longest road player
         if (this.state.game.longestRoad === player.name) {
@@ -59,14 +62,33 @@ export default class PlayGame extends Component {
           laSelected = player.name;
         }
       }
+
+      // console.log(this.state);
+      // console.log(this.state.game.rolls) 
+
+      // getting next players turn
+      let nextTurnNumber = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
+      let nextPlayer = {};
+
+      // if (nextTurnNumber !== 0) {
+      let remainderOfPlayers = nextTurnNumber % (this.state.game.players.length);
+      let playerIndex = remainderOfPlayers / 1; 
+
+      console.log(nextTurnNumber, players);
+      // } else {
+
+      // }
+
+      console.log('=========================');
+      // console.log(this.state);
+      // console.log(players.length);
+      // console.log(nextTurnNumber);
     }
-
-    // console.log(this.state);
-    // console.log(this.state.game.rolls) 
-
-    let currentAmountOfRolls = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
     return (
       <div>
+        <header>
+          <h1>Playing {this.state.game.scenario}</h1>
+        </header>
         <h2>Dice rolled</h2>
         
         <DiceRolled rolls={this.state.game.rolls} />

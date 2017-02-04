@@ -1,0 +1,54 @@
+@import '../base/mixins.scss';
+
+.app {
+  position: relative;
+  border-top: 60px solid $purple-700;
+
+  &__topnav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: $purple-700;
+    color: #fff;
+    padding: 15px;
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    
+    .material-icons { font-size: 3.4rem; }
+  }
+  &__drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    overflow: hidden;
+    z-index: 10;
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid #ccc;
+    z-index: 201;
+    @include accelerateOut(-300px);
+
+    &--open {
+      @include decelerateIn();
+    }
+  }
+
+  &__shield {
+    z-index: 200 !important;
+    @include shield;
+
+    &--open {
+      @include shield($isOpen: true);
+    }
+  }
+}
+
+
+header {
+  background: $purple-500;
+  color: #fff;
+  padding: 15px;
+  margin: 0 0 25px;
+}

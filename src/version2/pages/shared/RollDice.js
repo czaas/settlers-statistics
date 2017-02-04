@@ -1,18 +1,6 @@
 import React, { Component } from 'react';
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+import styled from 'styled-components';
 
 class RollDice extends Component {
   state = {
@@ -28,7 +16,7 @@ class RollDice extends Component {
       rolls: Object.assign({}, nextProps.rolls, {}),
     });
   }
-  toggleSlider(preference) {
+  toggleDrawer = (preference) => {
 
     let newSliderState = !this.state.isOpen;
 
@@ -51,7 +39,7 @@ class RollDice extends Component {
     }
 
     this.store.addDiceRoll(rollConfig, () => {
-      this.toggleSlider(false);
+      this.toggleDrawer(false);
     });
   }
 
@@ -59,17 +47,18 @@ class RollDice extends Component {
     e.preventDefault();
 
     // console.log(this.state.rolls);
-
+    this.toggleDrawer(false)
     let lastRoll = Object.keys(this.state.rolls)[Object.keys(this.state.rolls).length - 1];
     // console.log(lastRoll)
     this.store.removeRoll(lastRoll);
   }
   render() {
-
+    //console.log(this.props)
     return (
-      <div className="fab">
-        <button className="fab__button">Show Dice form FAB</button>
-        <div className="fab__drawer">
+      <div className={`fab ${ this.state.isOpen ? 'fab__open' : '' }`} style={{zIndex: 10}}>
+        <button className="fab__button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" onClick={this.toggleDrawer}>Roll</button>
+        <div className={`fab__drawer .mdl-shadow--8dp ${ this.state.isOpen ? 'fab__drawer__open' : '' }`}>
+          <h2>It is ${this.props.currentPlayer}</h2>
           <form className='fab__drawer__content dice-form'>
             <a name="number-3" value="3" onClick={this.rollDice.bind(this, '2')}>2</a>
             <a name="number-4" value="4" onClick={this.rollDice.bind(this, '3')}>3</a>
@@ -85,6 +74,7 @@ class RollDice extends Component {
             <a name="remove" value="remove" onClick={this.removeLastRoll}>undo last roll</a>
           </form>
         </div>
+        <div className="fab__shield" onClick={() => this.toggleDrawer(false)} />
       </div>
     );
   }

@@ -1,0 +1,36 @@
+.dice-rolled-table {
+  text-align: center;
+  width: 100%;
+  max-width: 450px;
+
+  th:first-child,
+  td:first-child {
+    text-align: right;
+  } 
+}
+
+.dice {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #000;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 4px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  
+  &__row {
+    display: flex;
+    justify-content: space-around;
+    box-sizing: border-box;
+  }
+  
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #000;
+    box-sizing: border-box;
+  }
+}

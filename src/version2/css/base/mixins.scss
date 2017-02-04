@@ -1,0 +1,47 @@
+// Following the design principles from Google's material design.
+// https://material.io/guidelines/motion/duration-easing.html#duration-easing-common-durations
+
+@mixin accelerateOut($x: 0, $y: 0, $z: 0, $timing: transform 195ms cubic-bezier(0.4, 0.0, 1, 1)) {
+  transform: translate3d($x, $y, $z);
+  transition: $timing;
+}
+@mixin decelerateIn($x: 0, $y: 0, $z: 0, $timing: transform 195ms cubic-bezier(0.4, 0.0, 1, 1)) {
+  transform: translate3d($x, $y, $z);
+  transition: $timing;
+}
+
+@mixin shield($isOpen: false) {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 2;
+  
+  opacity: 0;
+  pointer-events: none;
+
+  background: rgba(0,0,0,.3);
+  transition: opacity 195ms ease-in;
+
+  @if $isOpen {
+    pointer-events: auto;
+    opacity: .2;
+  }
+}
+
+/* ==
+700 status bars
+500 dominent theme
+300 secondary info
+
+accent colors are brighter
+*/
+
+$purple-300: #7986CB;
+$purple-500: #3F51B5;
+$purple-700: #303F9F;
+
+$blue-400: #3D5AFE;
