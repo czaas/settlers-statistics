@@ -51,7 +51,7 @@ class SettlersStore {
       id: gameRef,
       finished: false,
       longestRoad: 'no one',
-      largetsArmy: 'no one',
+      largestArmy: 'no one',
       winner: 'no one',
       host: this.currentUser.uid,
     }, newGameSettings);
@@ -116,6 +116,22 @@ class SettlersStore {
         cb(images);
       }
     });
+  }
+
+  updateLargestArmy(newName, cb) {
+    if (newName !== '') {
+      this.currentGameRef.update({
+        largestArmy: newName,
+      }).then(cb);
+    }
+  }
+
+  updateLongestRoad(newName, cb) {
+    if (newName !== '') {
+      this.currentGameRef.update({
+        longestRoad: newName,
+      }).then(cb);
+    }
   }
 }
 

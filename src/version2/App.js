@@ -27,6 +27,17 @@ import ViewGame from './pages/ViewGame';
 import NewGame from './pages/NewGame';
 import PlayGame from './pages/PlayGame';
 
+class WatchRouteChange extends React.Component {
+  componentWillUpdate = (nextProps) => {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.props.toggleDrawer(false);
+    }
+  }
+  render() {
+    return null;
+  }
+}
+
 class App extends Component {
   state = {
     user: null,
@@ -114,17 +125,6 @@ class App extends Component {
         </div>
       </Router>
     );
-  }
-}
-
-class WatchRouteChange extends React.Component {
-  componentWillUpdate = (nextProps) => {
-    if (this.props.location.pathname !== nextProps.location.pathname) {
-      this.props.toggleDrawer(false);
-    }
-  }
-  render() {
-    return null;
   }
 }
 

@@ -107,6 +107,18 @@ header {
   padding: 15px;
   margin: 0 0 25px; }
 
+main {
+  padding: 15px; }
+
+.mdl-card {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto 25px;
+  min-height: 0;
+  position: static; }
+  .mdl-card, .mdl-card__actions {
+    overflow: visible; }
+
 .dice-rolled-table {
   text-align: center;
   width: 100%;
@@ -186,14 +198,12 @@ accent colors are brighter
     color: #fff; }
   .fab__drawer {
     position: absolute;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    width: 90%;
     padding: 15px;
-    max-height: 80vh;
-    transform: translate3d(0, 10%, 0);
+    transform: translate3d(-50%, 10%, 0);
     transition: transform 195ms cubic-bezier(0.4, 0, 1, 1);
-    z-index: 3;
-    background: #fff; }
+    z-index: 3; }
   .fab__open .fab__shield {
     content: '';
     display: block;
@@ -210,5 +220,5 @@ accent colors are brighter
     pointer-events: auto;
     opacity: 1; }
   .fab__open .fab__drawer {
-    transform: translate3d(0, -100%, 0);
+    transform: translate3d(-50%, -115%, 0);
     transition: transform 195ms cubic-bezier(0.4, 0, 1, 1); }

@@ -97,33 +97,35 @@ export default class NewGame extends Component {
     return (
       <div>
         <header>
-          <h1>Start New Game</h1>
+          <h1>New Game</h1>
         </header>
-        <div className="card">
-          <form onSubmit={this.handleScenario}>
-            <h2>Add Scenario Name</h2>
-            <p><strong>Name: </strong> { this.state.scenario }</p>
-            <input type="text" ref="scenario" placeholder="Scenario name" required="true" />
-            <button>Save</button>
-          </form>
-        </div>
+        <main>
+          <div className="card">
+            <form onSubmit={this.handleScenario}>
+              <h2>Add Scenario Name</h2>
+              <p><strong>Name: </strong> { this.state.scenario }</p>
+              <input type="text" ref="scenario" placeholder="Scenario name" required="true" />
+              <button>Save</button>
+            </form>
+          </div>
 
-        <div className="card">
-          <p>If someone is playing and not keeping track of their stats, use Add Guest. </p>
-          <form ref="playerForm" onSubmit={(e) => e.preventDefault()}>
-            <input type="text" ref="player" placeholder="Players name" required="true" />
-          </form>
-          <button onClick={this.addPlayer}>Add Guest</button> <button onClick={this.handleInvitePlayer}>Invite Player</button>
-          <ul>
-            {players}
-          </ul>
-        </div>
+          <div className="card">
+            <p>If someone is playing and not keeping track of their stats, use Add Guest. </p>
+            <form ref="playerForm" onSubmit={(e) => e.preventDefault()}>
+              <input type="text" ref="player" placeholder="Players name" required="true" />
+            </form>
+            <button onClick={this.addPlayer}>Add Guest</button> <button onClick={this.handleInvitePlayer}>Invite Player</button>
+            <ul>
+              {players}
+            </ul>
+          </div>
 
-        <div className="card">
-          <h2>Confirm Game Details</h2>
-          <p>Confirm your scenario name and players. There will be no changing these after this point.</p>
-          <button onClick={this.startGame}>Start Game</button>
-        </div>
+          <div className="card">
+            <h2>Confirm Game Details</h2>
+            <p>Confirm your scenario name and players. There will be no changing these after this point.</p>
+            <button onClick={this.startGame}>Start Game</button>
+          </div>
+        </main>
       </div>
     );
   }

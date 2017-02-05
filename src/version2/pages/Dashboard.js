@@ -34,17 +34,18 @@ class Dashboard extends Component {
         <header>
           <h1>Dashboard</h1>
         </header>
+        <main>
+          <p><Link to="/dashboard/new-game">New Game</Link></p>
 
-        <p><Link to="/dashboard/new-game">New Game</Link></p>
+          <p>Your Stats</p>
 
-        <p>Your Stats</p>
+          <p>Total Games: {Object.keys(this.state.games).length}</p>
 
-        <p>Total Games: {Object.keys(this.state.games).length}</p>
-
-        <h2>Previous Games</h2>
-        <ul>
-          {games}
-        </ul>
+          <h2>Previous Games</h2>
+          <ul>
+            {games}
+          </ul>
+        </main>
       </div>
     );
   }

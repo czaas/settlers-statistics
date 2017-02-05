@@ -9,10 +9,11 @@ class Home extends Component {
         <header>
           <h1>Home</h1>
         </header>
+        <main>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vitae quibusdam recusandae adipisci animi doloribus maxime molestias nostrum, accusamus laudantium libero, a vero unde expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates esse saepe iste. Optio, ea, asperiores.</p>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit vitae quibusdam recusandae adipisci animi doloribus maxime molestias nostrum, accusamus laudantium libero, a vero unde expedita. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates esse saepe iste. Optio, ea, asperiores.</p>
-
-        {this.props.loggedIn ? null : <LoginForms /> }
+          {this.props.loggedIn ? null : <LoginForms /> }
+        </main>
       </div>
     );
   }

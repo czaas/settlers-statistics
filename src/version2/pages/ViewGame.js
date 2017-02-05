@@ -60,20 +60,27 @@ export default class ViewGame extends Component {
     }
     return (
       <div>
-        <p><strong>Winner</strong> {winner}</p>
-        
-        <p><strong>Longest Road</strong> was held by {lrSelected}</p>
+        <header>
+          <h1>{this.state.game.scenario}</h1>
 
-        <p><strong>Longest Army</strong> was held by {laSelected}</p>    
+          <p><strong>Game is over</strong></p>
+        </header>
+        <main>
+          <p><strong>Winner</strong> {winner}</p>
+          
+          <p><strong>Longest Road</strong> was held by {lrSelected}</p>
 
-        <h2>Dice rolled</h2>
+          <p><strong>Longest Army</strong> was held by {laSelected}</p>    
 
-        <DiceRolled rolls={this.state.game.rolls} />
+          <h2>Dice rolled</h2>
 
-        <h2>Images</h2>
-        <div>
-          {theImages}
-        </div>
+          <DiceRolled rolls={this.state.game.rolls} />
+
+          <h2>Images</h2>
+          <div>
+            {theImages}
+          </div>
+        </main>
       </div>
     );
   }

@@ -14,6 +14,14 @@ export default class PlayGame extends Component {
     images: [],
   }
 
+  componentDidMount() {
+    for (var key in this.refs) {
+      if (this.refs[key]) {
+        window.componentHandler.upgradeElement(this.refs[key]);
+      }
+    }
+  }
+
   componentWillMount = () => {
     this.store = new SettlersStore(this.props.match.params.id);
 
@@ -35,6 +43,20 @@ export default class PlayGame extends Component {
     });
   }
 
+  selectLargestArmy = (person) => {
+
+    this.refs.largestArmyButton.click();
+    this.store.updateLargestArmy(person, () => {
+      // console.log('largest army updated');
+    });
+  }
+  selectLongestRoad = (person) => {
+    this.refs.longestRoadButton.click();
+    this.store.updateLongestRoad(person, () => {
+      // console.log('longest road updated');
+    });
+  }
+
   render() {
     let lrSelected = 'no one';
     let laSelected = 'no one';
@@ -42,14 +64,24 @@ export default class PlayGame extends Component {
     let currentAmountOfRolls = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
     let currentPlayer = '';
 
+    let playersSelect = () => null;
+
     let theImages = this.state.images.map((url, index) => {
       return <img src={url} role="presentation" key={`image-${ index }`} />
     });
 
     if (this.state.haveReceivedData) {
+      // getting largest army player     
+      playersSelect = (selectionName, onClickListener) => this.state.game.players.map((player, playerSelectIndex) => {
+        return (
+          <li key={`players-select-${selectionName}-${ playerSelectIndex }`} onClick={onClickListener.bind(this, player.name)} className="mdl-menu__item">
+            {player.name}  
+          </li>
+        );
+      });
 
-      for (let i = 0; i < players.length; i++) {
-        let player = players[i];
+      for (let i = 0; i < this.state.game.players.length; i++) {
+        let player = this.state.game.players[i];
 
         players.push(player);
 
@@ -58,7 +90,7 @@ export default class PlayGame extends Component {
           lrSelected = player.name;
         }
 
-        // getting largest army player
+
         if (this.state.game.largestArmy === player.name) {
           laSelected = player.name;
         }
@@ -66,9 +98,7 @@ export default class PlayGame extends Component {
 
       // getting next players turn
       let nextTurnNumber = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
-
       let remainderOfPlayers = nextTurnNumber % (this.state.game.players.length);
-      let playerIndex = remainderOfPlayers / 1; 
 
       currentPlayer = this.state.game.players[remainderOfPlayers];
     }
@@ -77,20 +107,50 @@ export default class PlayGame extends Component {
         <header>
           <h1>Playing {this.state.game.scenario}</h1>
         </header>
-        <h2>Dice rolled</h2>
-        
-        <DiceRolled rolls={this.state.game.rolls} />
+        <main>
+          <DiceRolled rolls={this.state.game.rolls} />
 
-        <p><strong>Longest Road</strong> was held by {lrSelected}</p>
+          <div className="mdl-card mdl-shadow--2dp">
+            <div className="mdl-card__title">
+              <h2 className="mdl-card__title-text">Longest Road</h2>
+            </div>
+            <div className="mdl-card__supporting-text">
+              The longest road is travelled by:
+            </div>
+            <div className="mdl-card__actions mdl-card--border">
+              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="longestRoad" ref="longestRoadButton">{lrSelected}</button>
 
-        <p><strong>Longest Army</strong> was held by {laSelected}</p>    
+              <ul className="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" ref="largestRoadList" htmlFor="longestRoad">
+                {playersSelect('longest-road', this.selectLongestRoad)}
+              </ul>
+            </div>
+          </div>
 
-        <h2>Images</h2>
-        <div>
-          {theImages}
-        </div>
+          <div className="mdl-card mdl-shadow--2dp">
+            <div className="mdl-card__title">
+              <h2 className="mdl-card__title-text">Largest Army</h2>
+            </div>
+            <div className="mdl-card__supporting-text">
+              The largest army is owned by:
+            </div>
+            <div className="mdl-card__actions mdl-card--border">
+              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="largestArmy" ref="largestArmyButton">{laSelected}</button>
 
-        <RollDice gameId={this.props.match.params.id} nextOrder={currentAmountOfRolls++} store={this.store} rolls={this.state.game.rolls} currentPlayer={currentPlayer.name} />
+              <ul className="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" ref="largestArmyList" htmlFor="largestArmy">
+                {playersSelect('largest-army', this.selectLargestArmy)}
+              </ul>
+            </div>
+          </div>
+
+          <p><strong>Largest Army</strong> was held by {laSelected}</p>    
+
+          <h2>Images</h2>
+          <div>
+            {theImages}
+          </div>
+
+          <RollDice gameId={this.props.match.params.id} nextOrder={currentAmountOfRolls++} store={this.store} rolls={this.state.game.rolls} currentPlayer={currentPlayer.name} />
+        </main>
       </div>
     );
   }
