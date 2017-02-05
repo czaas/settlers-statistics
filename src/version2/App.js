@@ -50,6 +50,10 @@ class App extends Component {
     });
   }
 
+  componentWillUpdate = (nextState) => {
+    console.log(this.state, nextState);
+  }
+
   toggleDrawer = (preference) => {
 
     let newDrawerState = !this.state.drawerOpen;
@@ -100,6 +104,7 @@ class App extends Component {
             <i className="material-icons" onClick={this.toggleDrawer}>menu</i>
           </div>
 
+          <Route path="/" component={WatchRouteChange} loggedIn={this.state.userLoggedIn} toggleDrawer={this.toggleDrawer} />
           <Route exact path="/" component={Home} loggedIn={this.state.userLoggedIn} />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} loggedIn={this.state.userLoggedIn} />
@@ -113,6 +118,17 @@ class App extends Component {
         </div>
       </Router>
     );
+  }
+}
+
+class WatchRouteChange extends React.Component {
+  componentWillUpdate = (nextProps) => {
+    if (this.props.location.pathname !== nextProps.location.pathname) {
+      this.props.toggleDrawer(false);
+    }
+  }
+  render() {
+    return null;
   }
 }
 

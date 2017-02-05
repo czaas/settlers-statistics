@@ -37,6 +37,8 @@
     bottom: 30px;
     right: 30px;
     font-size: 1.2rem;
+    background: $action-400;
+    color: #fff;
   }
 
   &__drawer {
@@ -58,7 +60,6 @@
     }
     .fab__drawer {
       @include decelerateIn(0, -100%);
-      box-shadow: 2px 1px 15px #666;
     }
   }
 

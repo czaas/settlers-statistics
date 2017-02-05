@@ -23,12 +23,12 @@
   opacity: 0;
   pointer-events: none;
 
-  background: rgba(0,0,0,.3);
+  background: rgba(0,0,0,.2);
   transition: opacity 195ms ease-in;
 
   @if $isOpen {
     pointer-events: auto;
-    opacity: .2;
+    opacity: 1;
   }
 }
 
@@ -40,8 +40,10 @@
 accent colors are brighter
 */
 
-$purple-300: #7986CB;
-$purple-500: #3F51B5;
-$purple-700: #303F9F;
+$boxshadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
 
-$blue-400: #3D5AFE;
+$main-300: #64B5F6;
+$main-500: #2196F3;
+$main-700: #1976D2;
+
+$action-400: #26A69A;

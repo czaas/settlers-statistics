@@ -74,12 +74,12 @@ export default class PlayGame extends Component {
       let remainderOfPlayers = nextTurnNumber % (this.state.game.players.length);
       let playerIndex = remainderOfPlayers / 1; 
 
-      console.log(nextTurnNumber, players);
+      // console.log(nextTurnNumber, players);
       // } else {
 
       // }
 
-      console.log('=========================');
+      // console.log('=========================');
       // console.log(this.state);
       // console.log(players.length);
       // console.log(nextTurnNumber);

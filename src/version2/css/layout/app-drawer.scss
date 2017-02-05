@@ -2,7 +2,7 @@
 
 .app {
   position: relative;
-  border-top: 60px solid $purple-700;
+  border-top: 60px solid $main-700;
 
   &__topnav {
     position: fixed;
@@ -10,14 +10,15 @@
     left: 0;
     width: 100%;
     height: 60px;
-    background: $purple-700;
+    background: $main-700;
     color: #fff;
     padding: 15px;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: $boxshadow;
     
     .material-icons { font-size: 3.4rem; }
   }
   &__drawer {
+    box-shadow: $boxshadow;
     position: fixed;
     top: 0;
     left: 0;
@@ -33,6 +34,15 @@
     &--open {
       @include decelerateIn();
     }
+
+    &__nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+    }
   }
 
   &__shield {
@@ -47,7 +57,7 @@
 
 
 header {
-  background: $purple-500;
+  background: $main-500;
   color: #fff;
   padding: 15px;
   margin: 0 0 25px;
