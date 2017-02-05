@@ -50,10 +50,6 @@ class App extends Component {
     });
   }
 
-  componentWillUpdate = (nextState) => {
-    console.log(this.state, nextState);
-  }
-
   toggleDrawer = (preference) => {
 
     let newDrawerState = !this.state.drawerOpen;

@@ -40,6 +40,7 @@ export default class PlayGame extends Component {
     let laSelected = 'no one';
     let players = [];
     let currentAmountOfRolls = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
+    let currentPlayer = '';
 
     let theImages = this.state.images.map((url, index) => {
       return <img src={url} role="presentation" key={`image-${ index }`} />
@@ -63,26 +64,13 @@ export default class PlayGame extends Component {
         }
       }
 
-      // console.log(this.state);
-      // console.log(this.state.game.rolls) 
-
       // getting next players turn
       let nextTurnNumber = (this.state.game.rolls) ? Object.keys(this.state.game.rolls).length : 0;
-      let nextPlayer = {};
 
-      // if (nextTurnNumber !== 0) {
       let remainderOfPlayers = nextTurnNumber % (this.state.game.players.length);
       let playerIndex = remainderOfPlayers / 1; 
 
-      // console.log(nextTurnNumber, players);
-      // } else {
-
-      // }
-
-      // console.log('=========================');
-      // console.log(this.state);
-      // console.log(players.length);
-      // console.log(nextTurnNumber);
+      currentPlayer = this.state.game.players[remainderOfPlayers];
     }
     return (
       <div>
@@ -102,7 +90,7 @@ export default class PlayGame extends Component {
           {theImages}
         </div>
 
-        <RollDice gameId={this.props.match.params.id} nextOrder={currentAmountOfRolls++} store={this.store} rolls={this.state.game.rolls} />
+        <RollDice gameId={this.props.match.params.id} nextOrder={currentAmountOfRolls++} store={this.store} rolls={this.state.game.rolls} currentPlayer={currentPlayer.name} />
       </div>
     );
   }

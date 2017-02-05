@@ -45,20 +45,17 @@ class RollDice extends Component {
 
   removeLastRoll = (e) => {
     e.preventDefault();
-
-    // console.log(this.state.rolls);
+    
     this.toggleDrawer(false)
     let lastRoll = Object.keys(this.state.rolls)[Object.keys(this.state.rolls).length - 1];
-    // console.log(lastRoll)
     this.store.removeRoll(lastRoll);
   }
   render() {
-    //console.log(this.props)
     return (
       <div className={`fab ${ this.state.isOpen ? 'fab__open' : '' }`} style={{zIndex: 10}}>
         <button className="fab__button mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect" onClick={this.toggleDrawer}>Roll</button>
         <div className={`fab__drawer .mdl-shadow--8dp ${ this.state.isOpen ? 'fab__drawer__open' : '' }`}>
-          <h2>It is ${this.props.currentPlayer}</h2>
+          <h2>It is {this.props.currentPlayer}'s turn.</h2>
           <form className='fab__drawer__content dice-form'>
             <a name="number-3" value="3" onClick={this.rollDice.bind(this, '2')}>2</a>
             <a name="number-4" value="4" onClick={this.rollDice.bind(this, '3')}>3</a>
