@@ -57,6 +57,53 @@ export default class PlayGame extends Component {
     });
   }
 
+  handleImageUpload = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    this.setState({
+      showImageUploadSpinner: true,
+    });
+
+    let amountOfImages = (this.state.game.images) ? Math.abs(this.state.game.images) + 1 : 1;
+
+
+    let gameId = this.props.match.params.id;
+
+    if (amountOfImages <= 3) {
+      let images = document.getElementById('image-uploader').files[0];
+      var reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        var baseLength = 'data:image/jpeg;base64,'.length;
+
+        let image = reader.result.slice(baseLength, reader.result.length);
+        let newImageRef = this.store.handleImageUpload({
+          id: gameId, 
+          number: amountOfImages,
+        });
+
+        newImageRef.putString(reader.result, 'data_url').then((snapshot) => {
+          console.log('image uploaded');
+          this.refs.imageUploader.value = '';
+          console.log(snapshot);
+
+          this.store.updateGame({
+            images: amountOfImages,
+          });
+
+          this.setState({
+            showImageUploadSpinner: false,
+          });
+        });
+      }, false);
+
+      if (images) {
+        reader.readAsDataURL(images);
+      }
+    }
+  }
+
   uploadImage = () => {
     this.refs.imageUploader.click();
   }
@@ -165,7 +212,7 @@ export default class PlayGame extends Component {
               <p>You can upload up to 3 images per game</p>
             </div>
             <div className="mdl-card__actions mdl-card--border">
-              <input type="file" hidden accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} />
+              <input type="file" hidden accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} id="image-uploader" />
               <button onClick={this.uploadImage} className="image-button mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">
                 <i className="material-icons">photo_camera</i><br />
                 Upload Image

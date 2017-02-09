@@ -69,6 +69,10 @@ class SettlersStore {
     }).then(() => cb(gameRef));
   }
 
+  updateGame(update, cb) {
+    this.currentGameRef.update(update).then(cb);
+  }
+
   addDiceRoll(settings, cb) {
     this.currentGameRef.child(`rolls`).push({
       number: settings.number,
@@ -99,6 +103,12 @@ class SettlersStore {
         
       });
     }
+  }
+
+  handleImageUpload(settings) {
+    let newImageRef = firebase.storage().ref(`games/${ settings.id }/${ settings.number }.jpg`);
+
+    return newImageRef;
   }
 
   getImageUrls(gameId, cb) {
