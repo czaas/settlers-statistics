@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import LoginForms from './shared/LoginForms';
+import LoginForms from './components/LoginForms';
 
 export default class Login extends Component {
   componentWillReceiveProps = (nextProps) => {

@@ -1,3 +1,7 @@
+body {
+  background: #fafafa;
+}
+
 header {
   background: $main-500;
   color: #fff;
@@ -19,4 +23,17 @@ main {
   &, &__actions {
     overflow: visible;
   }
+
+  &__supporting-text {
+    p {
+      margin: 0 0 10px;
+    }
+  }
+}
+
+.image-button {
+  height: auto !important;
+  display: block;
+  width: 100%;
+  margin: 0 auto 15px;
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import SettlersStore from './_store';
 
-import DiceRolled from './shared/DiceRolled';
+import DiceRolled from './components/DiceRolled';
 
 export default class ViewGame extends Component {
   state = {

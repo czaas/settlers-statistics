@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import LoginForms from './shared/LoginForms';
+import LoginForms from './components/LoginForms';
 
 class Home extends Component {
   render() {

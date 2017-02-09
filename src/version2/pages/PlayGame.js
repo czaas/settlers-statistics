@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import SettlersStore from './_store';
-import DiceRolled from './shared/DiceRolled';
+import DiceRolled from './components/DiceRolled';
 
-import RollDice from './shared/RollDice';
+import RollDice from './components/RollDice';
 
 export default class PlayGame extends Component {
   state = {
@@ -57,6 +57,10 @@ export default class PlayGame extends Component {
     });
   }
 
+  uploadImage = () => {
+    this.refs.imageUploader.click();
+  }
+
   render() {
     let lrSelected = 'no one';
     let laSelected = 'no one';
@@ -108,7 +112,18 @@ export default class PlayGame extends Component {
           <h1>Playing {this.state.game.scenario}</h1>
         </header>
         <main>
-          <DiceRolled rolls={this.state.game.rolls} />
+        <div className="mdl-card mdl-shadow--2dp">
+          <div className="mdl-card__title">
+            <h2 className="mdl-card__title-text">Dice Rolled</h2>
+          </div>
+          <div className="mdl-card__supporting-text">
+            Amount of dice rolled this game {this.state.game.rolls.length}
+          </div>
+          <div className="mdl-card__actions mdl-card--border">
+            <DiceRolled rolls={this.state.game.rolls} />
+          </div>
+        </div>
+          
 
           <div className="mdl-card mdl-shadow--2dp">
             <div className="mdl-card__title">
@@ -131,7 +146,7 @@ export default class PlayGame extends Component {
               <h2 className="mdl-card__title-text">Largest Army</h2>
             </div>
             <div className="mdl-card__supporting-text">
-              The largest army is owned by:
+              <p>The largest army is owned by:</p>
             </div>
             <div className="mdl-card__actions mdl-card--border">
               <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="largestArmy" ref="largestArmyButton">{laSelected}</button>
@@ -142,9 +157,22 @@ export default class PlayGame extends Component {
             </div>
           </div>
 
-          <p><strong>Largest Army</strong> was held by {laSelected}</p>    
+          <div className="mdl-card mdl-shadow--2dp">
+            <div className="mdl-card__title">
+              <h2 className="mdl-card__title-text">Upload and view photos</h2>
+            </div>
+            <div className="mdl-card__supporting-text">
+              <p>You can upload up to 3 images per game</p>
+            </div>
+            <div className="mdl-card__actions mdl-card--border">
+              <input type="file" hidden accept="image/*;capture=camera" ref='imageUploader' onChange={this.handleImageUpload} />
+              <button onClick={this.uploadImage} className="image-button mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">
+                <i className="material-icons">photo_camera</i><br />
+                Upload Image
+              </button>
+            </div>
+          </div>
 
-          <h2>Images</h2>
           <div>
             {theImages}
           </div>

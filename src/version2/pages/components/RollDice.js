@@ -36,9 +36,9 @@ class RollDice extends Component {
       order: this.props.nextOrder
     }
 
-    this.store.addDiceRoll(rollConfig, () => {
-      this.toggleDrawer(false);
-    });
+    this.toggleDrawer(false);
+
+    this.store.addDiceRoll(rollConfig, () => null);
   }
 
   removeLastRoll = (e) => {
