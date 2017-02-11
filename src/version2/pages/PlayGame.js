@@ -12,6 +12,7 @@ export default class PlayGame extends Component {
       rolls: {},
     },
     images: [],
+    winnerSelected: false,
   }
 
   componentDidMount() {
@@ -25,21 +26,30 @@ export default class PlayGame extends Component {
   componentWillMount = () => {
     this.store = new SettlersStore(this.props.match.params.id);
 
-    this.store.getImageUrls(this.props.match.params.id, (images) => {
-      this.setState({
-        images: images,
-      });
-    });
-
+    this.getImages();
     this.store.subscribeToGame(this.props.match.params.id, (val) => {
       let gameSettings = Object.assign({}, {
         rolls: {},
       }, val);
 
+      if (gameSettings.finished) {
+        this.props.push(`/dashboard/game/${ gameSettings.id }`);
+      }
+
       this.setState({
         haveReceivedData: true,
         game: gameSettings, 
       });
+    });
+  }
+
+  getImages = () => {
+    this.store.getImageUrls(this.props.match.params.id, (images) => {
+      this.setState({
+        images: images,
+      });
+
+      // console.log(images)
     });
   }
 
@@ -55,6 +65,14 @@ export default class PlayGame extends Component {
     this.store.updateLongestRoad(person, () => {
       // console.log('longest road updated');
     });
+  }
+
+  selectWinner = (person) => {
+    this.refs.winnerButton.click();
+
+    this.setState({
+      winnerSelected: person,
+    })
   }
 
   handleImageUpload = (e) => {
@@ -77,7 +95,6 @@ export default class PlayGame extends Component {
       reader.addEventListener('load', () => {
         var baseLength = 'data:image/jpeg;base64,'.length;
 
-        let image = reader.result.slice(baseLength, reader.result.length);
         let newImageRef = this.store.handleImageUpload({
           id: gameId, 
           number: amountOfImages,
@@ -88,13 +105,18 @@ export default class PlayGame extends Component {
           this.refs.imageUploader.value = '';
           console.log(snapshot);
 
+          let imageDownloadUrl = snapshot.a.downloadURLs[0];
+
           this.store.updateGame({
             images: amountOfImages,
           });
 
           this.setState({
             showImageUploadSpinner: false,
+            images: [...this.state.images, imageDownloadUrl],
           });
+
+          this.getImages();
         });
       }, false);
 
@@ -108,7 +130,17 @@ export default class PlayGame extends Component {
     this.refs.imageUploader.click();
   }
 
+  endGame = () => {
+    console.log('end game', this.state);
+
+    this.store.endGame({
+      winner: this.state.winnerSelected,
+      id: this.props.match.params.id,
+    });
+  }
+
   render() {
+
     let lrSelected = 'no one';
     let laSelected = 'no one';
     let players = [];
@@ -164,7 +196,7 @@ export default class PlayGame extends Component {
             <h2 className="mdl-card__title-text">Dice Rolled</h2>
           </div>
           <div className="mdl-card__supporting-text">
-            Amount of dice rolled this game {this.state.game.rolls.length}
+            <p>Amount of dice rolled this game {this.state.game.rolls.length}</p>
           </div>
           <div className="mdl-card__actions mdl-card--border">
             <DiceRolled rolls={this.state.game.rolls} />
@@ -177,10 +209,10 @@ export default class PlayGame extends Component {
               <h2 className="mdl-card__title-text">Longest Road</h2>
             </div>
             <div className="mdl-card__supporting-text">
-              The longest road is travelled by:
+              <p>The longest road is travelled by {lrSelected}</p>
             </div>
             <div className="mdl-card__actions mdl-card--border">
-              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="longestRoad" ref="longestRoadButton">{lrSelected}</button>
+              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="longestRoad" ref="longestRoadButton">{lrSelected} <i className="material-icons">arrow_drop_down</i></button>
 
               <ul className="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" ref="largestRoadList" htmlFor="longestRoad">
                 {playersSelect('longest-road', this.selectLongestRoad)}
@@ -193,10 +225,10 @@ export default class PlayGame extends Component {
               <h2 className="mdl-card__title-text">Largest Army</h2>
             </div>
             <div className="mdl-card__supporting-text">
-              <p>The largest army is owned by:</p>
+              <p>The largest army is owned by {laSelected}</p>
             </div>
             <div className="mdl-card__actions mdl-card--border">
-              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="largestArmy" ref="largestArmyButton">{laSelected}</button>
+              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="largestArmy" ref="largestArmyButton">{laSelected} <i className="material-icons">arrow_drop_down</i></button>
 
               <ul className="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" ref="largestArmyList" htmlFor="largestArmy">
                 {playersSelect('largest-army', this.selectLargestArmy)}
@@ -204,9 +236,11 @@ export default class PlayGame extends Component {
             </div>
           </div>
 
-          <div className="mdl-card mdl-shadow--2dp">
+          <div className="mdl-card image-uploader mdl-shadow--2dp">
             <div className="mdl-card__title">
               <h2 className="mdl-card__title-text">Upload and view photos</h2>
+
+              {theImages}
             </div>
             <div className="mdl-card__supporting-text">
               <p>You can upload up to 3 images per game</p>
@@ -220,8 +254,34 @@ export default class PlayGame extends Component {
             </div>
           </div>
 
-          <div>
-            {theImages}
+          <div className="mdl-card image-uploader mdl-shadow--2dp">
+            <div className="mdl-card__title">
+              <h2 className="mdl-card__title-text">Ending the Game</h2>
+            </div>
+            <div className="mdl-card__supporting-text">
+              <p>Once you end the game there is no undo.</p>
+              <p>Enter final results and upload up to 3 images.</p>
+            </div>
+            <div className="mdl-card__actions mdl-card--border">
+              <button className="mdl-button mdl-js-button mdl-js-ripple-effect" id="winnerButton" ref="winnerButton">{this.state.winnerSelected || 'Select Winner'} <i className="material-icons">arrow_drop_down</i></button>
+              <ul className="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" ref="winner" htmlFor="winnerButton">
+                {playersSelect('winner', this.selectWinner)}
+              </ul>
+              <div style={{ display: (this.state.winnerSelected) ? 'block' : 'none' }}>
+                <p>There is no undo after this.</p>
+                <p>
+                  <label className="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect is-disabled" htmlFor="checkbox-2" ref="confirmingNoUndo__label">
+                    <input type="checkbox" id="checkbox-2" value="ready" className="mdl-checkbox__input" ref="readyToEndGame" onChange={() => {
+                      this.setState({
+                        readyToEndGame: this.refs.readyToEndGame.checked,
+                      })
+                    }} />
+                    <span className="mdl-checkbox__label">I Understand</span>
+                  </label>
+                </p>
+                <button onClick={this.endGame} disabled={!this.state.readyToEndGame} className="image-button mdl-button mdl-button--raised mdl-js-button mdl-js-ripple-effect">End Game</button>
+              </div>
+            </div>
           </div>
 
           <RollDice gameId={this.props.match.params.id} nextOrder={currentAmountOfRolls++} store={this.store} rolls={this.state.game.rolls} currentPlayer={currentPlayer.name} />

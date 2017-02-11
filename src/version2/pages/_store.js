@@ -111,6 +111,21 @@ class SettlersStore {
     return newImageRef;
   }
 
+  endGame(settings) {
+    if (settings.winner) {
+      this.currentGameRef.update({
+        winner: settings.winner,
+        finished: true,
+      }).then((snapshot) => {
+        return 'success!';
+      });
+
+      this.db.ref(`users/${ this.currentUser.uid }/games/${ settings.id }`).update({
+        finished: true,
+      });
+    }
+  }
+
   getImageUrls(gameId, cb) {
     let images = [];
 
