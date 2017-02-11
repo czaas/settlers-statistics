@@ -65,8 +65,6 @@ class ViewSingleGame extends Component {
         <DiceRolled rolls={this.state.game.rolls} />
 
         <GetImages id={this.props.params.id} amountOfImages={this.state.game.images || 0} />
-
-
       </div>
     );
   }

@@ -94,8 +94,6 @@ class NewGame extends Component {
       winner: 'no one',
     };
 
-
-
     firebase.database().ref(`games/${ gameRef }`).set(game);
 
     firebase.database().ref(`users/${ this.props.user.uid }/games/${ gameRef }`).set({

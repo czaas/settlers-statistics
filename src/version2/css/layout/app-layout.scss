@@ -1,0 +1,39 @@
+body {
+  background: #fafafa;
+}
+
+header {
+  background: $main-500;
+  color: #fff;
+  padding: 15px;
+  margin: 0 0 25px;
+}
+
+main {
+  padding: 15px;
+}
+
+.mdl-card {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto 25px;
+  min-height: 0;
+  position: static;
+
+  &, &__actions {
+    overflow: visible;
+  }
+
+  &__supporting-text {
+    p {
+      margin: 0 0 10px;
+    }
+  }
+}
+
+.image-button {
+  height: auto !important;
+  display: block;
+  width: 100%;
+  margin: 0 auto 15px;
+}
